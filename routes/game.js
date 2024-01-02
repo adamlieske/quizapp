@@ -33,45 +33,54 @@ function gameRoutes(app) {
       correctAnswer: 1,
     },
   ];
-
   app.get("/question", (req, res) => {
-    if (goodAnswers === questions.length) {
-      res.json({
-        winner: true,
-      });
-    } else if (isGameOver) {
-      res.json({
-        loser: true,
-      });
+    // Inicjalizacja sesji dla nowego użytkownika
+    if (typeof req.session.goodAnswers === "undefined") {
+      req.session.goodAnswers = 0;
+      req.session.isGameOver = false;
+    }
+
+    // Sprawdzanie, czy użytkownik wygrał
+    if (req.session.goodAnswers === questions.length) {
+      req.session.isGameOver = true;
+      res.json({ winner: true });
+    } else if (req.session.isGameOver) {
+      res.json({ loser: true });
     } else {
-      const nextQuestion = questions[goodAnswers];
-      const { question, answers } = nextQuestion;
+      // Wyświetlanie kolejnego pytania
+      const nextQuestion = questions[req.session.goodAnswers];
       res.json({
-        question,
-        answers,
+        question: nextQuestion.question,
+        answers: nextQuestion.answers,
       });
     }
   });
 
   app.post("/answer/:index", (req, res) => {
-    if (isGameOver) {
-      res.json({
-        loser: true,
-      });
+    // Odpowiedź, gdy gra się zakończyła
+    if (req.session.isGameOver) {
+      return res.json({ loser: true });
     }
+
+    // Sprawdzanie odpowiedzi
     const { index } = req.params;
-    const question = questions[goodAnswers];
-
+    const question = questions[req.session.goodAnswers];
     const isCorrect = question.correctAnswer === Number(index);
+
+    // Aktualizacja stanu sesji
     if (isCorrect) {
-      goodAnswers++;
+      req.session.goodAnswers++;
     } else {
-      isGameOver = true;
+      req.session.isGameOver = true;
     }
 
+    // Informowanie użytkownika o wyniku
+    const hasFinished = req.session.goodAnswers === questions.length;
     res.json({
       correct: isCorrect,
-      goodAnswers,
+      goodAnswers: req.session.goodAnswers,
+      winner: hasFinished,
+      loser: !isCorrect && !hasFinished,
     });
   });
 }
