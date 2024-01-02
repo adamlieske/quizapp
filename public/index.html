@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>>Kevin's Board</title>
+    <style>
+      #question {
+        display: block;
+      }
+      #buttons-container {
+        text-align: left;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Dla Flexbox, wyrównuje dzieci do lewej */
+      }
+      #buttons-container button {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lotnictwo</h1>
+    <h2>Poprawne odpowiedzi: <span id="good-answers">0</span></h2>
+    <div id="game-board">
+      <div id="question" style="display: block"></div>
+      <div id="buttons-container">
+        <button id="answer1" data-answer="0"></button>
+        <button id="answer2" data-answer="1"></button>
+        <button id="answer3" data-answer="2"></button>
+        <button id="answer4" data-answer="3"></button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
