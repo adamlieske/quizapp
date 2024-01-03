@@ -1,2 +1,0 @@
-# quizapp
-Lotnictwo - QuizApp

@@ -1,0 +1,21 @@
+#question {
+  display: block;
+  margin-top: 10px;
+}
+#buttons-container {
+  text-align: left;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Dla Flexbox, wyrównuje dzieci do lewej */
+}
+#buttons-container button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
